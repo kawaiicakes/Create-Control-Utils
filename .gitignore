@@ -17,3 +17,7 @@ classes/
 .vscode
 .settings
 *.launch
+/fabric/run/
+/forge/run/
+/fabric/build/
+/forge/build/
