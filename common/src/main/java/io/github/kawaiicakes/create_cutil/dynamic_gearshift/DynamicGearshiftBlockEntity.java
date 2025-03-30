@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.Vec3;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -38,18 +39,20 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
     public void addBehavioursDeferred(List<BlockEntityBehaviour> behaviours) {
         createLink();
         behaviours.add(this.link);
-        behaviours.add(this.altLink);
+        // behaviours.add(this.altLink);
     }
 
     protected void createLink() {
         Pair<ValueBoxTransform, ValueBoxTransform> slots =
                 ValueBoxTransform.Dual.makeSlots(FrequencySlots::new);
 
+        /*
         Pair<ValueBoxTransform, ValueBoxTransform> altSlots =
                 ValueBoxTransform.Dual.makeSlots((f) -> new FrequencySlots(f, true));
+         */
 
         this.link = LinkBehaviour.receiver(this, slots, this::setSignal);
-        this.altLink = LinkBehaviour.receiver(this, altSlots, this::setAltSignal);
+        // this.altLink = LinkBehaviour.receiver(this, altSlots, this::setAltSignal);
     }
 
     public void setSignal(int power) {
@@ -68,8 +71,8 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
     public void write(CompoundTag compound, boolean clientPacket) {
         compound.putInt("Receive", this.getReceivedSignal());
         compound.putBoolean("ReceivedChanged", this.receivedSignalChanged);
-        compound.putInt("ReceiveAlt", this.getReceivedAltSignal());
-        compound.putBoolean("ReceivedAltChanged", this.receivedAltSignalChanged);
+        // compound.putInt("ReceiveAlt", this.getReceivedAltSignal());
+        // compound.putBoolean("ReceivedAltChanged", this.receivedAltSignalChanged);
         compound.putBoolean("firstTick", this.firstTick);
         super.write(compound, clientPacket);
     }
@@ -80,8 +83,8 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
 
         this.receivedSignal = compound.getInt("Receive");
         this.receivedSignalChanged = compound.getBoolean("ReceivedChanged");
-        this.receivedAltSignal = compound.getInt("ReceiveAlt");
-        this.receivedAltSignalChanged = compound.getBoolean("ReceivedAltChanged");
+        // this.receivedAltSignal = compound.getInt("ReceiveAlt");
+        // this.receivedAltSignalChanged = compound.getBoolean("ReceivedAltChanged");
         this.firstTick = compound.getBoolean("firstTick");
     }
 
@@ -93,15 +96,15 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
             this.firstTick = true;
 
             LinkBehaviour old = this.link;
-            LinkBehaviour oldAlt = this.altLink;
+            // LinkBehaviour oldAlt = this.altLink;
 
             removeBehaviour(LinkBehaviour.TYPE);
             createLink();
 
             this.link.copyItemsFrom(old);
-            this.altLink.copyItemsFrom(oldAlt);
+            // this.altLink.copyItemsFrom(oldAlt);
             attachBehaviourLate(this.link);
-            attachBehaviourLate(this.altLink);
+            // attachBehaviourLate(this.altLink);
         }
 
         if (!(this.level instanceof ServerLevel))
@@ -111,15 +114,17 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
         if (!CreateControlUtilRegistry.DYNAMIC_GEARSHIFT_BLOCK.has(blockState))
             return;
 
-        if ((getReceivedSignal() > 0) != blockState.getValue(DynamicGearshiftBlock.POWERED)) {
+        if ((this.getReceivedSignal() > 0) != blockState.getValue(DynamicGearshiftBlock.POWERED)) {
             this.receivedSignalChanged = true;
             this.level.setBlockAndUpdate(this.worldPosition, blockState.cycle(DynamicGearshiftBlock.POWERED));
         }
 
+        /*
         if ((getReceivedAltSignal() > 0) != blockState.getValue(DynamicGearshiftBlock.ALT_POWERED)) {
             this.receivedAltSignalChanged = true;
             this.level.setBlockAndUpdate(this.worldPosition, blockState.cycle(DynamicGearshiftBlock.ALT_POWERED));
         }
+         */
 
         if (this.receivedSignalChanged) {
             this.level.blockUpdated(
@@ -131,6 +136,7 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
             this.receivedSignalChanged = false;
         }
 
+        /*
         if (this.receivedAltSignalChanged) {
             this.level.blockUpdated(
                     this.worldPosition,
@@ -140,12 +146,14 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
             );
             this.receivedAltSignalChanged = false;
         }
+        */
     }
 
     @Override
     public float getRotationSpeedModifier(Direction face) {
-        if (!this.hasSource()) return 0;
-        return sixteenths(this.getReceivedSignal() - this.getReceivedAltSignal());
+        if (!this.hasSource()) return 1;
+        if (face == this.getSourceFacing() || !this.getBlockState().getValue(BlockStateProperties.POWERED)) return 0;
+        return sixteenths(this.getReceivedSignal()); // - this.getReceivedAltSignal());
     }
 
     public int getReceivedSignal() {
