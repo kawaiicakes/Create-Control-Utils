@@ -16,7 +16,7 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.kawaiicakes.create_cutil.fabric.CreateCollisionUtilFabric"
+      "io.github.kawaiicakes.create_cutil.fabric.CreateControlUtilFabric"
     ]
   },
   "mixins": [
