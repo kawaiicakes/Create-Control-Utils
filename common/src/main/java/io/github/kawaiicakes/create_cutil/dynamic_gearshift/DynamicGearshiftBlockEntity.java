@@ -90,8 +90,6 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
 
     @Override
     public void tick() {
-        super.tick();
-
         if (!this.firstTick) {
             this.firstTick = true;
 
@@ -147,13 +145,16 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
             this.receivedAltSignalChanged = false;
         }
         */
+
+        super.tick();
     }
 
     @Override
     public float getRotationSpeedModifier(Direction face) {
-        if (!this.hasSource()) return 1;
-        if (face == this.getSourceFacing() || !this.getBlockState().getValue(BlockStateProperties.POWERED)) return 0;
-        return sixteenths(this.getReceivedSignal()); // - this.getReceivedAltSignal());
+        if (!this.hasSource() || face == this.getSourceFacing()) return 1;
+        if (!this.getBlockState().getValue(BlockStateProperties.POWERED)) return 0;
+
+        return (this.getReceivedSignal() / 15.0F); // - this.getReceivedAltSignal());
     }
 
     public int getReceivedSignal() {
@@ -162,11 +163,6 @@ public class DynamicGearshiftBlockEntity extends SplitShaftBlockEntity {
 
     public int getReceivedAltSignal() {
         return this.receivedAltSignal;
-    }
-
-    // Division can be expensive. Multiplication is faster. That said, IDK if this is even worth it lol
-    public static float sixteenths(int numerator) {
-        return numerator * 0.0625F;
     }
 
     public static class FrequencySlots extends RedstoneLinkFrequencySlot {

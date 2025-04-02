@@ -1,6 +1,6 @@
 package io.github.kawaiicakes.create_cutil.dynamic_gearshift;
 
-import com.simibubi.create.content.kinetics.transmission.ClutchBlock;
+import com.simibubi.create.content.kinetics.transmission.GearshiftBlock;
 import com.simibubi.create.content.kinetics.transmission.SplitShaftBlockEntity;
 import io.github.kawaiicakes.create_cutil.CreateControlUtilRegistry;
 import net.minecraft.world.item.context.BlockPlaceContext;
@@ -12,7 +12,7 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("deprecation")
-public class DynamicGearshiftBlock extends ClutchBlock {
+public class DynamicGearshiftBlock extends GearshiftBlock {
     public static final BooleanProperty ALT_POWERED = BooleanProperty.create("alt_powered");
 
     public DynamicGearshiftBlock(Properties properties) {
