@@ -4,7 +4,7 @@ loaderVersion = "[${forge_version},)"
 license = "MIT"
 
 [[mods]]
-modId = "create_cutil"
+modId = "createutil"
 version = "${version}"
 displayName = "Create: Control Utilities"
 authors = "kawaiicakes"
@@ -12,21 +12,21 @@ description = '''
 '''
 logoFile = "icon.png"
 
-[[dependencies.create_cutil]]
+[[dependencies.createutil]]
 modId = "forge"
 mandatory = true
 versionRange = "[${forge_version},)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.create_cutil]]
+[[dependencies.createutil]]
 modId = "minecraft"
 mandatory = true
 versionRange = "${minecraft_version}"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.create_cutil]]
+[[dependencies.createutil]]
 modId="create"
 mandatory=true
 versionRange="${create_version}"

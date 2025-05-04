@@ -63,7 +63,7 @@ processResources {
 loom {
     forge {
         mixinConfig(
-                "create_cutil-common.mixins.json"
+                "createutil-common.mixins.json"
         )
     }
 }

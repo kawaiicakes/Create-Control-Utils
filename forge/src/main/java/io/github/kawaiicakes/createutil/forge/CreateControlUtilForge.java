@@ -1,7 +1,6 @@
-package io.github.kawaiicakes.create_cutil.forge;
+package io.github.kawaiicakes.createutil.forge;
 
-import io.github.kawaiicakes.create_cutil.CreateControlUtil;
-import io.github.kawaiicakes.create_cutil.CreateControlUtilRegistry;
+import io.github.kawaiicakes.createutil.CreateControlUtil;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -11,7 +10,7 @@ public class CreateControlUtilForge {
     public CreateControlUtilForge() {
         // registrate must be given the mod event bus on forge before registration
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        CreateControlUtilRegistry.REGISTRATE.registerEventListeners(eventBus);
+        CreateControlUtil.REGISTRATE.registerEventListeners(eventBus);
         CreateControlUtil.init();
     }
 }

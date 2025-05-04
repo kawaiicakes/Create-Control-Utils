@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "create_cutil",
+  "id": "createutil",
   "version": "${version}",
   "name": "Create: Control Utilities",
   "description": "This is an example description! Tell everyone what your mod is about!",
@@ -12,15 +12,15 @@
     "sources": "https://github.com/FabricMC/fabric-example-mod"
   },
   "license": "MIT",
-  "icon": "assets/create_cutil/icon.png",
+  "icon": "assets/createutil/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "io.github.kawaiicakes.create_cutil.fabric.CreateControlUtilFabric"
+      "io.github.kawaiicakes.createutil.fabric.CreateControlUtilFabric"
     ]
   },
   "mixins": [
-    "create_cutil-common.mixins.json"
+    "createutil-common.mixins.json"
   ],
   "depends": {
     "minecraft": "${minecraft_version}",
