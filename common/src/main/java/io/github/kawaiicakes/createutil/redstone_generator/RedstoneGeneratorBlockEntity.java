@@ -25,9 +25,7 @@ public class RedstoneGeneratorBlockEntity extends SplitShaftBlockEntity {
                 2
         );
 
-        /*
-
-        for (Direction direction : Direction.values()) {
+        for (Direction direction : Direction.Plane.HORIZONTAL) {
             if (!RedstoneGeneratorBlock.signalAxis(this.getBlockState()).test(direction)) continue;
 
             this.getLevel().neighborChanged(
@@ -38,8 +36,6 @@ public class RedstoneGeneratorBlockEntity extends SplitShaftBlockEntity {
                     false
             );
         }
-
-         */
 
         this.notifyUpdate();
     }
